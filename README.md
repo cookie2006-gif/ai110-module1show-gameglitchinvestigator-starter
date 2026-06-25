@@ -25,9 +25,26 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+**Game's purpose.** A Streamlit number-guessing game. The player picks a difficulty (Easy 1–20, Normal 1–100, Hard 1–50) and guesses the secret number with higher/lower hints.
+
+**Bugs found.**
+- The secret number changed on every submit.
+- The higher/lower hints were reversed.
+- On some turns the hint was wrong because numbers were compared as text (so 9 looked bigger than 10).
+- The difficulty range and number of attempts didn't match what the sidebar showed.
+- Out-of-range or non-numeric guesses still used up an attempt.
+- New Game didn't fully reset the game, so the player was stuck on the win/lose screen.
+- Developer debug info was visible to the player.
+- The score formula was off and gave random bonus points.
+
+**Fixes applied.**
+- Moved the game logic into `logic_utils.py` and used one `DIFFICULTY_SETTINGS` dict for ranges and attempts.
+- Stored the secret in `st.session_state` and used `fresh_game_state()` for both the first load and New Game.
+- Fixed `check_guess` so it compares numbers and returns the correct hint.
+- Added input validation: invalid guesses show an error but don't use up an attempt.
+- Hid the debug panel behind a `GLITCHY_DEBUG=1` environment variable.
+- Cleaned up the score calculation.
+- Added pytest tests in `tests/test_game_logic.py`.
 
 ## 🕹️ Demo Walkthrough
 
